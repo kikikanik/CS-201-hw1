@@ -1,0 +1,123 @@
+---
+title: "R Notebook"
+author: "Kiki Kanik"
+output: html_notebook
+---
+Part I:
+1)Mean, variance, moments and median are all properties of exponential distribution.
+
+a) the mean refers to a value that is expected to occur. In this sense, it is E(x)= 1/lambda
+
+b)the variance is 1/(lambda^2). The standard deviation is equal to the mean. 
+
+Part II:
+2) when rate is 1: Mean (1.042173) SD (1.006045)
+```{r}
+exp.draws.1 = rexp(n=200)
+mean(exp.draws.1)
+sd(exp.draws.1)
+```
+3)
+when rate is 0.1: Mean (10.98142) SD (12.39049)
+```{r}
+exp.draws.0.1 = rexp(n=200, rate=0.1)
+mean(exp.draws.0.1)
+sd(exp.draws.0.1)
+```
+
+when rate is 0.5: Mean (1.731437) SD (1.068284)
+```{r}
+exp.draws.0.5 = rexp(n=10, rate=0.5)
+mean(exp.draws.0.5)
+sd(exp.draws.0.5)
+```
+when rate is 5: Mean (0.2694435) SD (0.2341035)
+```{r}
+exp.draws.5 = rexp(n=10, rate=5)
+mean(exp.draws.5)
+sd(exp.draws.5)
+```
+when rate is 10: Mean (0.09598443) SD (0.07485583)
+```{r}
+exp.draws.10 = rexp(n=10, rate=10)
+mean(exp.draws.10)
+sd(exp.draws.10)
+```
+4) a. 
+```{r}
+hist(exp.draws.1)
+```
+b) 
+```{r}
+plot(exp.draws.1)
+```
+4c) 
+```{r}
+plot(exp.draws.1, exp.draws.0.1)
+```
+5)
+you are seeing that the mean and variance are both 1/λ and
+the mean versus the standard deviation is a straight line since the mean is equal to the standard deviation.
+```{r}
+means = c(mean(exp.draws.0.1), mean(exp.draws.0.5), mean(exp.draws.1), mean(exp.draws.5), mean(exp.draws.10))
+rates = c(0.1, 1, 0.5, 5, 10)
+sds = c(sd(exp.draws.0.1), sd(exp.draws.0.5), sd(exp.draws.1), sd(exp.draws.5), sd(exp.draws.10))
+```
+a. This plots the relationship between the means and the rates. 
+```{r}
+plot(means, rates)
+```
+b. This plots the relationship between the standard deviations and the rates.
+```{r}
+plot(sds, rates)
+```
+c. This graph represents the relationship between the means and sds. 
+```{r}
+plot(means, sds)
+```
+
+6)
+a. 
+```{r}
+big.exp.draws.1=(rexp(n=1100000))
+mean(big.exp.draws.1)
+sd(big.exp.draws.1)
+```
+b)
+```{r}
+mbto= mean(big.exp.draws.1[which(big.exp.draws.1>1)])
+```
+c)
+```{r}
+?matrix
+```
+i. data = a data vector
+ii. nrow = the number of rows wanted
+iii. ncol = the number of colomns wanted
+iv. byrow = FALSE is default, and the matrix is filled with colomns. If TRUE, matrix is filled by rows.
+d)
+hist() created a histogram with the data retreived from the matrix
+```{r}
+big.exp.draws.1.mat = matrix(big.exp.draws.1,1100,1000)
+dim(big.exp.draws.1.mat)
+hist(big.exp.draws.1.mat)
+```
+e) 
+```{r}
+?apply
+```
+f) 
+```{r}
+x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] <- letters[1:8]
+apply(x, 2, mean, trim = .2)
+col.sums <- apply(x, 2, sum)
+row.sums <- apply(x, 1, sum)
+rbind(cbind(x, Rtot = row.sums), Ctot = c(col.sums, sum(col.sums)))
+
+stopifnot( apply(x, 2, is.vector))
+```
+g)
+```{r}
+sample.means <- colMeans(big.exp.draws.1.mat)
+```
